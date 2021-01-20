@@ -6,14 +6,158 @@
     android:layout_height="match_parent"
     tools:context=".ARRecognitionActivity">
 
-    <fragment
-        android:id="@+id/ar_fragment"
-        android:name="com.google.ar.sceneform.ux.ArFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="400dp"
+        android:layout_height="39dp"
+        android:layout_marginBottom="2dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <Button
+            android:id="@+id/back_button"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="44dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="284dp"
+            android:background="#00FFFFFF"
+            android:drawableBottom="@drawable/ic_round_arrow_back_ios_24"
+            android:textColor="#00FFFFFF"
+            android:textColorHighlight="#00FFFFFF"
+            android:textColorHint="#00FFFFFF"
+            android:textColorLink="#00FFFFFF"
+            android:textCursorDrawable="@color/common_google_signin_btn_text_dark_disabled" />
+
+        <Button
+            android:id="@+id/virtualMode_button"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="44dp"
+            android:layout_height="42dp"
+            android:background="#00FFFFFF"
+            android:drawableBottom="@drawable/ic_round_image_search_24"
+            android:textColor="#00FFFFFF"
+            android:textColorHighlight="#00FFFFFF"
+            android:textColorHint="#00FFFFFF"
+            android:textColorLink="#00FFFFFF"
+            android:textCursorDrawable="@color/common_google_signin_btn_text_dark_disabled"
+            tools:layout_editor_absoluteX="59dp"
+            tools:layout_editor_absoluteY="308dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragmentLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <fragment
+            android:id="@+id/ar_fragment"
+            android:name="com.google.ar.sceneform.ux.ArFragment"
+            android:layout_width="395dp"
+            android:layout_height="530dp"
+            android:layout_margin="2dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="399dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentLayout">
+
+        <TextView
+            android:id="@+id/chapterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="336dp" />
+
+        <ImageButton
+            android:id="@+id/subtitles"
+            style="@android:style/Widget.DeviceDefault.Light.ImageButton"
+            android:layout_width="44dp"
+            android:layout_height="36dp"
+            android:background="#00FFFFFF"
+            app:srcCompat="@drawable/ic_round_speaker_notes_24" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="91dp"
+        android:layout_marginEnd="95dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <ImageButton
+            android:id="@+id/backward_button"
+            android:layout_width="44dp"
+            android:layout_height="36dp"
+            android:background="#00FFFFFF"
+            android:scrollbarThumbHorizontal="@color/common_google_signin_btn_text_dark_disabled"
+            app:srcCompat="@drawable/ic_round_skip_previous_24" />
+
+        <ImageButton
+            android:id="@+id/play_button"
+            android:layout_width="44dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:background="#00FFFFFF"
+            app:srcCompat="@drawable/ic_round_play_arrow_24" />
+
+        <ImageButton
+            android:id="@+id/forward_button"
+            android:layout_width="44dp"
+            android:layout_height="36dp"
+            android:background="#00FFFFFF"
+            app:srcCompat="@drawable/ic_round_skip_next_24" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="402dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="3dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <TextView
+            android:id="@+id/artworkName"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:textAlignment="viewEnd" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

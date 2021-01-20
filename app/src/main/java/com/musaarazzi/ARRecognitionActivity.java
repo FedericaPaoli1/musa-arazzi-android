@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.ar.core.AugmentedImage;
@@ -34,17 +35,21 @@ import java.util.Collection;
 import java.util.List;
 
 public class ARRecognitionActivity extends AppCompatActivity {
+
     private static final String TAG = "ARRecognitionActivity";
     private static final double MIN_OPENGL_VERSION = 3.0;
     private ArFragment arFragment;
     private Session session;
     private ArSceneView arSceneView;
     private boolean shouldConfigureSession = false;
+
     private AugmentedImageDatabase augmentedImageDatabase;
     private Bitmap augmentedImageBitmap;
     private List<Integer> augmentedImageIndexes = new ArrayList<>();
     private List<Integer> perfectSquares = new ArrayList<>(Arrays.asList(4, 9, 16, 25, 36, 49, 64));
     private int chunksNumberIndex = perfectSquares.size() - 1;
+    private LinearLayout fragmentLayout;
+
     private boolean isModelAdded = false;
 
     @Override
@@ -60,9 +65,9 @@ public class ARRecognitionActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_arrecognition);
 
+        this.fragmentLayout = findViewById(R.id.fragmentLayout);
 
         this.arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ar_fragment);
-
         // hiding the plane discovery
         this.arFragment.getPlaneDiscoveryController().hide();
         this.arFragment.getPlaneDiscoveryController().setInstructionView(null);
@@ -135,8 +140,8 @@ public class ARRecognitionActivity extends AppCompatActivity {
         }
     }
 
-    private Bitmap loadImage() {
-        try (InputStream is = getAssets().open("arazzo.jpg")) {
+    private Bitmap loadImage(String filename) {
+        try (InputStream is = getAssets().open(filename)) {
             return BitmapFactory.decodeStream(is);
         } catch (IOException e) {
             Log.e(TAG, "IO Exception while loading", e);
@@ -145,7 +150,7 @@ public class ARRecognitionActivity extends AppCompatActivity {
     }
 
     private boolean setupAugmentedImageDb() {
-        this.augmentedImageBitmap = loadImage();
+        this.augmentedImageBitmap = loadImage("arazzo.jpg");
         if (this.augmentedImageBitmap == null) {
             return false;
         }
@@ -164,8 +169,6 @@ public class ARRecognitionActivity extends AppCompatActivity {
         //For height and width of the small image chunks
         int chunkHeight, chunkWidth;
 
-        int counter = 1;
-
         rows = cols = (int) Math.sqrt(chunkNumbers);
         chunkHeight = bitmap.getHeight() / rows;
         chunkWidth = bitmap.getWidth() / cols;
@@ -177,14 +180,13 @@ public class ARRecognitionActivity extends AppCompatActivity {
             int xCoord = 0;
             for (int y = 0; y < cols; y++) {
                 try {
-                    this.augmentedImageIndexes.add(this.augmentedImageDatabase.addImage("chunk_" + counter, Bitmap.createBitmap(bitmap, xCoord, yCoord, chunkWidth, chunkHeight), 480));
+                    this.augmentedImageIndexes.add(this.augmentedImageDatabase.addImage("chunk_at_r" + x + "c" + y, Bitmap.createBitmap(bitmap, xCoord, yCoord, chunkWidth, chunkHeight), 480));
                     // 480: to speed up the augmented image detection
                     // TODO find a way to generalize with android.hardware.camera2
                 } catch (ImageInsufficientQualityException e) {
                     this.chunksNumberIndex = perfectSquares.indexOf(chunkNumbers) - 1;
                     return;
                 }
-                counter++;
                 xCoord += chunkWidth;
             }
             yCoord += chunkHeight;
@@ -202,12 +204,96 @@ public class ARRecognitionActivity extends AppCompatActivity {
                 if (this.augmentedImageIndexes.stream().anyMatch(i -> i == augmentedImage.getIndex()) && !isModelAdded) {
                     Log.d(TAG, "Image recognized");
                     Toast.makeText(this, "Image recognized", Toast.LENGTH_SHORT).show();
-                    // TODO render shape
+
+                    Log.d(TAG, "Chunksnumber used is: " + this.perfectSquares.get(this.chunksNumberIndex));
+                    Log.d(TAG, "Found augmented image name: " + augmentedImage.getName() + " and index: " + augmentedImage.getIndex());
+
+                    // TODO adjust the rendering of lines with margins of the fragment
+                    if (augmentedImage.getName().matches(".*r0.*")) {
+                        if (augmentedImage.getName().matches(".*c0.*")) {
+                            Log.d(TAG, "Image top left edge recognized");
+                            Toast.makeText(this, "Image top left edge recognized", Toast.LENGTH_SHORT).show();
+                            // render top left edge shape
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_top_border);
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_left_border);
+                        } else if (augmentedImage.getName().matches(".*c" + (Math.sqrt(this.perfectSquares.get(this.chunksNumberIndex)) - 1) + ".*")) {
+                            Log.d(TAG, "Image top right edge recognized");
+                            Toast.makeText(this, "Image top right edge recognized", Toast.LENGTH_SHORT).show();
+                            // render top right edge shape
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_top_border);
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_right_border);
+                        } else {
+                            Log.d(TAG, "Image side recognized: top side");
+                            Toast.makeText(this, "Image side recognized", Toast.LENGTH_SHORT).show();
+                            // render top line
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_top_border);
+                        }
+                    } else if (augmentedImage.getName().matches(".*r" + (Math.sqrt(this.perfectSquares.get(this.chunksNumberIndex)) - 1) + ".*")) {
+                        if (augmentedImage.getName().matches(".*c0.*")) {
+                            Log.d(TAG, "Image bottom left edge recognized");
+                            Toast.makeText(this, "Image bottom left edge recognized", Toast.LENGTH_SHORT).show();
+                            // render bottom left edge shape
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_left_border);
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_bottom_border);
+                        } else if (augmentedImage.getName().matches(".*c" + (Math.sqrt(this.perfectSquares.get(this.chunksNumberIndex)) - 1) + ".*")) {
+                            Log.d(TAG, "Image bottom right edge recognized");
+                            Toast.makeText(this, "Image bottom right edge recognized", Toast.LENGTH_SHORT).show();
+                            // render bottom right edge shape
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_right_border);
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_bottom_border);
+                        } else {
+                            Log.d(TAG, "Image side recognized: bottom side");
+                            Toast.makeText(this, "Image side recognized", Toast.LENGTH_SHORT).show();
+                            // render bottom line
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_bottom_border);
+                        }
+                    } else if (augmentedImage.getName().matches(".*c0.*")) {
+                        if (augmentedImage.getName().matches(".*r0.*")) {
+                            Log.d(TAG, "Image top left edge recognized");
+                            Toast.makeText(this, "Image top left edge recognized", Toast.LENGTH_SHORT).show();
+                            // render top left edge shape
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_top_border);
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_left_border);
+                        } else if (augmentedImage.getName().matches(".*r" + (Math.sqrt(this.perfectSquares.get(this.chunksNumberIndex)) - 1) + ".*")) {
+                            Log.d(TAG, "Image bottom left edge recognized");
+                            Toast.makeText(this, "Image bottom left edge recognized", Toast.LENGTH_SHORT).show();
+                            // render bottom left edge shape
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_left_border);
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_bottom_border);
+                        } else {
+                            Log.d(TAG, "Image side recognized: left side");
+                            Toast.makeText(this, "Image side recognized", Toast.LENGTH_SHORT).show();
+                            // render left line
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_left_border);
+                        }
+                    } else if (augmentedImage.getName().matches(".*c" + (Math.sqrt(this.perfectSquares.get(this.chunksNumberIndex)) - 1) + ".*")) {
+                        if (augmentedImage.getName().matches(".*r0.*")) {
+                            Log.d(TAG, "Image top right edge recognized");
+                            Toast.makeText(this, "Image top right edge recognized", Toast.LENGTH_SHORT).show();
+                            // render top right edge shape
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_top_border);
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_right_border);
+                        } else if (augmentedImage.getName().matches(".*r" + (Math.sqrt(this.perfectSquares.get(this.chunksNumberIndex)) - 1) + ".*")) {
+                            Log.d(TAG, "Image bottom right edge recognized");
+                            Toast.makeText(this, "Image bottom right edge recognized", Toast.LENGTH_SHORT).show();
+                            // render bottom right edge shape
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_right_border);
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_bottom_border);
+                        } else {
+                            Log.d(TAG, "Image side recognized: right side");
+                            Toast.makeText(this, "Image side recognized", Toast.LENGTH_SHORT).show();
+                            // render bottom line
+                            this.fragmentLayout.setBackgroundResource(R.drawable.view_bottom_border);
+                        }
+                    }
+                    Log.d(TAG, "All checks about sides done");
+                    // TODO play the audio
                     isModelAdded = true;
                 }
             }
         }
     }
+
 
     private void configureSession() {
         Config config = new Config(session);
