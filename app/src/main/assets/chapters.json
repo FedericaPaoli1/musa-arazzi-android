@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "Introduzione",
+    "text": "Testo da riprodurre",
+    "audio": 1
+  },
+  {
+    "id": 2,
+    "title": "Primo capitolo",
+    "text": "Il maglione",
+    "audio": 2
+  },
+  {
+    "id": 3,
+    "title": "Secondo capitolo",
+    "text": "Il panettone",
+    "audio": 3
+  },
+  {
+    "id": 4,
+    "title": "Terzo capitolo",
+    "text": "Il salmone",
+    "audio": 4
+  },
+  {
+    "id": 5,
+    "title": "Quarto capitolo",
+    "text": "L'unicorno",
+    "audio": 5
+  }
+]

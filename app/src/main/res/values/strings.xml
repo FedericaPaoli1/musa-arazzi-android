@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">MusaArazzi</string>
+    <string name="app_name">MusA_Project</string>
+    <string name="app_start">Start</string>
 </resources>

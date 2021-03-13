@@ -32,7 +32,8 @@
             android:textColorHighlight="#00FFFFFF"
             android:textColorHint="#00FFFFFF"
             android:textColorLink="#00FFFFFF"
-            android:textCursorDrawable="@color/common_google_signin_btn_text_dark_disabled" />
+            android:textCursorDrawable="@color/common_google_signin_btn_text_dark_disabled"
+            android:onClick="onClick"/>
 
         <Button
             android:id="@+id/virtualMode_button"
@@ -47,17 +48,14 @@
             android:textColorLink="#00FFFFFF"
             android:textCursorDrawable="@color/common_google_signin_btn_text_dark_disabled"
             tools:layout_editor_absoluteX="59dp"
-            tools:layout_editor_absoluteY="308dp" />
+            tools:layout_editor_absoluteY="308dp"
+            android:onClick="onClick"/>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/fragmentLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -66,11 +64,65 @@
 
         <fragment
             android:id="@+id/ar_fragment"
-            android:name="com.google.ar.sceneform.ux.ArFragment"
-            android:layout_width="395dp"
-            android:layout_height="530dp"
-            android:layout_margin="2dp"/>
-    </LinearLayout>
+            android:name="com.musaarazzi.ARRecognitionFragment"
+            android:layout_width="415dp"
+            android:layout_height="520dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="-2dp"
+            android:layout_marginEnd="-1dp" />
+
+        <ImageView
+            android:id="@+id/top_border_image"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:src="@drawable/fragment_border"
+            android:visibility="gone"></ImageView>
+
+        <ImageView
+            android:id="@+id/bottom_border_image"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_alignBottom="@id/top_border_image"
+            android:layout_marginBottom="-505dp"
+            android:src="@drawable/fragment_border"
+            android:visibility="gone"></ImageView>
+
+        <ImageView
+            android:id="@+id/right_border_image"
+            android:layout_width="16dp"
+            android:layout_height="520dp"
+            android:layout_alignLeft="@id/left_border_image"
+            android:layout_alignEnd="@+id/ar_fragment"
+            android:layout_marginLeft="400dp"
+            android:layout_marginEnd="-4dp"
+            android:src="@drawable/fragment_border"
+            android:visibility="gone"></ImageView>
+
+        <ImageView
+            android:id="@+id/left_border_image"
+            android:layout_width="12dp"
+            android:layout_height="520dp"
+            android:src="@drawable/fragment_border"
+            android:visibility="gone"
+            tools:layout_editor_absoluteX="-205dp"
+            tools:layout_editor_absoluteY="501dp"></ImageView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="89dp"
+            android:layout_height="150dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="157dp"
+            android:layout_marginTop="186dp"
+            android:layout_marginEnd="147dp"
+            android:theme="@style/ProgressBarStyle"
+            android:visibility="visible" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -82,15 +134,16 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragmentLayout">
 
         <TextView
             android:id="@+id/chapterName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="336dp" />
+            android:layout_width="204dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="150dp"
+            android:textAlignment="viewStart" />
 
         <ImageButton
             android:id="@+id/subtitles"
@@ -98,7 +151,8 @@
             android:layout_width="44dp"
             android:layout_height="36dp"
             android:background="#00FFFFFF"
-            app:srcCompat="@drawable/ic_round_speaker_notes_24" />
+            app:srcCompat="@drawable/ic_round_speaker_notes_24"
+            android:onClick="onClick"/>
     </LinearLayout>
 
     <LinearLayout
@@ -119,7 +173,8 @@
             android:layout_height="36dp"
             android:background="#00FFFFFF"
             android:scrollbarThumbHorizontal="@color/common_google_signin_btn_text_dark_disabled"
-            app:srcCompat="@drawable/ic_round_skip_previous_24" />
+            app:srcCompat="@drawable/ic_round_skip_previous_24"
+            android:onClick="onClick"/>
 
         <ImageButton
             android:id="@+id/play_button"
@@ -128,23 +183,38 @@
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
             android:background="#00FFFFFF"
-            app:srcCompat="@drawable/ic_round_play_arrow_24" />
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_round_play_arrow_24"
+            android:onClick="onClick"/>
+
+        <ImageButton
+            android:id="@+id/pause_button"
+            android:layout_width="44dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:background="#00FFFFFF"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_round_pause_24"
+            android:onClick="onClick"/>
 
         <ImageButton
             android:id="@+id/forward_button"
             android:layout_width="44dp"
             android:layout_height="36dp"
             android:background="#00FFFFFF"
-            app:srcCompat="@drawable/ic_round_skip_next_24" />
+            app:srcCompat="@drawable/ic_round_skip_next_24"
+            android:onClick="onClick"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="402dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="7dp"
         android:layout_marginEnd="9dp"
         android:layout_marginBottom="3dp"
+        android:gravity="right|end"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -152,12 +222,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
-        <TextView
-            android:id="@+id/artworkName"
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:textAlignment="viewEnd" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/artworkName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="324dp"
+        android:layout_marginTop="4dp"
+        android:textAlignment="gravity"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
