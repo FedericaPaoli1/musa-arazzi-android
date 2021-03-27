@@ -1,4 +1,4 @@
-package com.musaarazzi;
+package com.musaarazzi.common.utils;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Utils {
+public class ChaptersService {
 
     private static String getJsonFromAssets(Context context, String fileName) {
         String jsonString;
@@ -33,7 +33,7 @@ public class Utils {
         return jsonString;
     }
 
-    protected static List<Chapter> readJson(String TAG, Context context) {
+    public static List<Chapter> readJson(String TAG, Context context) {
         String jsonFileString = getJsonFromAssets(context, "chapters.json");
         Log.d(TAG, "Reading json...");
 
@@ -49,32 +49,4 @@ public class Utils {
         Log.d(TAG, "Chapter names obtained");
         return chapterNames;
     }
-
-    public static class Chapter {
-        private String title;
-        private boolean selected;
-
-        public Chapter(String title, boolean selected) {
-            this.title = title;
-            this.selected = selected;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public boolean getSelected() {
-            return selected;
-        }
-
-        public void setSelected(boolean selected) {
-            this.selected = selected;
-        }
-
-        @Override
-        public String toString() {
-            return "Chapter [title=" + this.title + ", selected=" + this.selected + "]";
-        }
-    }
 }
-

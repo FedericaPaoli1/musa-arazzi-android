@@ -2,31 +2,26 @@
   {
     "id": 1,
     "title": "Introduzione",
-    "text": "Testo da riprodurre",
-    "audio": 1
+    "text": "Testo da riprodurre"
   },
   {
     "id": 2,
     "title": "Primo capitolo",
-    "text": "Il maglione",
-    "audio": 2
+    "text": "Il panettone"
   },
   {
     "id": 3,
     "title": "Secondo capitolo",
-    "text": "Il panettone",
-    "audio": 3
+    "text": "L'unicorno"
   },
   {
     "id": 4,
     "title": "Terzo capitolo",
-    "text": "Il salmone",
-    "audio": 4
+    "text": "La maglia"
   },
   {
     "id": 5,
     "title": "Quarto capitolo",
-    "text": "L'unicorno",
-    "audio": 5
+    "text": "Il salmone"
   }
 ]

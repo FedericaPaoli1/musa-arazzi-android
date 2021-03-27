@@ -1,16 +1,15 @@
-package com.musaarazzi;
+package com.musaarazzi.common.utils;
+
 
 public class Chapters {
     private int id;
     private String title;
     private String text;
-    private int audio;
 
-    public Chapters(int id, String title, String text, int audio) {
+    public Chapters(int id, String title, String text) {
         this.id = id;
         this.title = title;
         this.text = text;
-        this.audio = audio;
     }
 
     public int getId() {
@@ -37,16 +36,9 @@ public class Chapters {
         this.text = text;
     }
 
-    public int getAudio() {
-        return audio;
-    }
-
-    public void setAudio(int audio) {
-        this.audio = audio;
-    }
-
     @Override
     public String toString() {
-        return "Chapters [id=" + this.id + ", title=" + this.title + ", text=" + this.text + ", audio=" + this.audio + "]";
+        return "Chapters [id=" + this.id + ", title=" + this.title + ", text=" + this.text + "]";
     }
 }
+
