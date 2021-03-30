@@ -26,7 +26,7 @@ import java.util.List;
 
 public class ArRecognitionActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "AugmentedImageActivity";
+    private static final String TAG = "ArRecognitionActivity";
     private ArFragment arFragment;
 
 

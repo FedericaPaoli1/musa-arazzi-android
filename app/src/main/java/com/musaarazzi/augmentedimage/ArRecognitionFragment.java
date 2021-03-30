@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ArRecognitionFragment extends ArFragment {
-    private static final String TAG = "ARRecognitionFragment";
+    private static final String TAG = "ArRecognitionFragment";
 
     private static final String IMAGE_NAME = "arazzo.jpg";
 
