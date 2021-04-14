@@ -1,6 +1,5 @@
 package com.musaarazzi.common.utils;
 
-
 public class Chapters {
     private int id;
     private String title;
@@ -41,4 +40,3 @@ public class Chapters {
         return "Chapters [id=" + this.id + ", title=" + this.title + ", text=" + this.text + "]";
     }
 }
-

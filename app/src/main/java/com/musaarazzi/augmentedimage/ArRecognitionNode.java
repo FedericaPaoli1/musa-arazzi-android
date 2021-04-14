@@ -3,109 +3,263 @@ package com.musaarazzi.augmentedimage;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+
 import com.google.ar.core.AugmentedImage;
-import com.google.ar.core.Pose;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.math.Quaternion;
+import com.google.ar.sceneform.math.Vector3;
+import com.google.ar.sceneform.rendering.FixedWidthViewSizer;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.musaarazzi.R;
 import com.musaarazzi.common.utils.Chapter;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
-@SuppressWarnings({"AndroidApiChecker"})
 public class ArRecognitionNode extends AnchorNode {
 
     private static final String TAG = "ArRecognitionNode";
 
-    private AugmentedImage image;
-
     private final int splitsNumber;
+    private int rowsColumnsNumber;
 
-    private final float originalImageWidth = 1.05f;
-    private final float originalImageHeight = 0.945f;
+    private float originalImageWidth;
+    private float originalImageHeight;
 
-    private static CompletableFuture<ViewRenderable> bordersModel;
+    private CompletableFuture<ViewRenderable> bordersModel;
+    private CompletableFuture<ViewRenderable> chapterOneModel;
+    private CompletableFuture<ViewRenderable> chapterTwoModel;
+    private CompletableFuture<ViewRenderable> chapterThreeModel;
+    private CompletableFuture<ViewRenderable> chapterFourModel;
+    private CompletableFuture<ViewRenderable> chapterFiveModel;
+
+    private Context context;
 
     public ArRecognitionNode(Context context) {
-        // Upon construction, start loading the models for the corners of the frame.
+        this.context = context;
 
         this.splitsNumber = ArRecognitionFragment.perfectSquares.get(ArRecognitionFragment.chunksNumberIndex);
-
-        if (bordersModel == null) {
-            bordersModel = ViewRenderable.builder()
-                    .setView(context, R.layout.borders_renderable)
-                    .build();
-        }
+        this.rowsColumnsNumber = (int) Math.sqrt(this.splitsNumber);
     }
 
 
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
     public void setImage(AugmentedImage image, Chapter chapter) {
+        this.originalImageWidth = image.getExtentX() * rowsColumnsNumber;
+        this.originalImageHeight = image.getExtentZ() * rowsColumnsNumber;
 
-        this.image = image;
 
+        if (this.getAnchor() == null) {
+            setAnchor(image.createAnchor(image.getCenterPose()));
+        }
+
+        if (bordersModel == null) {
+            bordersModel = ViewRenderable.builder()
+                    .setView(context, R.layout.borders_renderable)
+                    .setVerticalAlignment(ViewRenderable.VerticalAlignment.CENTER)
+                    .setSizer(new FixedWidthViewSizer(originalImageWidth))
+                    .build();
+        }
         if (!bordersModel.isDone()) {
-            CompletableFuture.allOf(bordersModel)
-                    .thenAccept((Void aVoid) -> setImage(image, chapter))
+            bordersModel
+                    .thenAccept((ViewRenderable renderable) -> setImage(image, chapter))
                     .exceptionally(
                             throwable -> {
                                 Log.e(TAG, "Exception loading", throwable);
                                 return null;
                             });
+            return;
         }
 
-        float[] xyPositions = calculatePosition();
+        if (chapterOneModel == null) {
+            chapterOneModel = ViewRenderable.builder()
+                    .setView(context, R.layout.chapter_one_renderable)
+                    .setVerticalAlignment(ViewRenderable.VerticalAlignment.CENTER)
+                    .setSizer(new FixedWidthViewSizer(originalImageWidth))
+                    .build();
+        }
+        if (!chapterOneModel.isDone()) {
+            chapterOneModel
+                    .thenAccept((ViewRenderable renderable) -> setImage(image, chapter))
+                    .exceptionally(
+                            throwable -> {
+                                Log.e(TAG, "Exception loading", throwable);
+                                return null;
+                            });
+            return;
+        }
 
-        double hypotenuse = Math.sqrt(Math.pow(image.getCenterPose().tz(), 2) + Math.pow(xyPositions[0], 2));
-        float alpha = (float) Math.toDegrees(Math.acos(Math.abs(xyPositions[0] / hypotenuse)));
+        if (chapterTwoModel == null) {
+            chapterTwoModel = ViewRenderable.builder()
+                    .setView(context, R.layout.chapter_two_renderable)
+                    .setVerticalAlignment(ViewRenderable.VerticalAlignment.CENTER)
+                    .setSizer(new FixedWidthViewSizer(originalImageWidth))
+                    .build();
+        }
+        if (!chapterTwoModel.isDone()) {
+            chapterTwoModel
+                    .thenAccept((ViewRenderable renderable) -> setImage(image, chapter))
+                    .exceptionally(
+                            throwable -> {
+                                Log.e(TAG, "Exception loading", throwable);
+                                return null;
+                            });
+            return;
+        }
 
-        setAnchor(image.createAnchor(new Pose(Pose.makeTranslation(xyPositions[0], xyPositions[1], image.getCenterPose().tz()).getTranslation(), Pose.makeRotation(1, 1, 0, -alpha).getRotationQuaternion())));
+        if (chapterThreeModel == null) {
+            chapterThreeModel = ViewRenderable.builder()
+                    .setView(context, R.layout.chapter_three_renderable)
+                    .setVerticalAlignment(ViewRenderable.VerticalAlignment.CENTER)
+                    .setSizer(new FixedWidthViewSizer(originalImageWidth))
+                    .build();
+        }
+        if (!chapterThreeModel.isDone()) {
+            chapterThreeModel
+                    .thenAccept((ViewRenderable renderable) -> setImage(image, chapter))
+                    .exceptionally(
+                            throwable -> {
+                                Log.e(TAG, "Exception loading", throwable);
+                                return null;
+                            });
+            return;
+        }
+
+        if (chapterFourModel == null) {
+            chapterFourModel = ViewRenderable.builder()
+                    .setView(context, R.layout.chapter_four_renderable)
+                    .setVerticalAlignment(ViewRenderable.VerticalAlignment.CENTER)
+                    .setSizer(new FixedWidthViewSizer(originalImageWidth))
+                    .build();
+        }
+        if (!chapterFourModel.isDone()) {
+            chapterFourModel
+                    .thenAccept((ViewRenderable renderable) -> setImage(image, chapter))
+                    .exceptionally(
+                            throwable -> {
+                                Log.e(TAG, "Exception loading", throwable);
+                                return null;
+                            });
+            return;
+        }
+
+        if (chapterFiveModel == null) {
+            chapterFiveModel = ViewRenderable.builder()
+                    .setView(context, R.layout.chapter_five_renderable)
+                    .setVerticalAlignment(ViewRenderable.VerticalAlignment.CENTER)
+                    .setSizer(new FixedWidthViewSizer(originalImageWidth))
+                    .build();
+        }
+        if (!chapterFiveModel.isDone()) {
+            chapterFiveModel
+                    .thenAccept((ViewRenderable renderable) -> setImage(image, chapter))
+                    .exceptionally(
+                            throwable -> {
+                                Log.e(TAG, "Exception loading", throwable);
+                                return null;
+                            });
+            return;
+        }
 
         Node modelNode;
 
         modelNode = new Node();
+
+        try {
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone((ConstraintLayout) bordersModel.get().getView().findViewById(R.id.overlay_layout));
+            constraintSet.setDimensionRatio(R.id.borders_view, originalImageWidth + ":" + originalImageHeight);
+            constraintSet.applyTo(bordersModel.get().getView().findViewById(R.id.overlay_layout));
+
+
+            constraintSet = new ConstraintSet();
+            constraintSet.clone((ConstraintLayout) chapterOneModel.get().getView().findViewById(R.id.overlay_layout));
+            constraintSet.setDimensionRatio(R.id.chapter_one_view, originalImageWidth + ":" + originalImageHeight);
+            constraintSet.applyTo(chapterOneModel.get().getView().findViewById(R.id.overlay_layout));
+
+            constraintSet = new ConstraintSet();
+            constraintSet.clone((ConstraintLayout) chapterTwoModel.get().getView().findViewById(R.id.overlay_layout));
+            constraintSet.setDimensionRatio(R.id.chapter_two_view, originalImageWidth + ":" + originalImageHeight);
+            constraintSet.applyTo(chapterTwoModel.get().getView().findViewById(R.id.overlay_layout));
+
+            constraintSet = new ConstraintSet();
+            constraintSet.clone((ConstraintLayout) chapterThreeModel.get().getView().findViewById(R.id.overlay_layout));
+            constraintSet.setDimensionRatio(R.id.chapter_three_view, originalImageWidth + ":" + originalImageHeight);
+            constraintSet.applyTo(chapterThreeModel.get().getView().findViewById(R.id.overlay_layout));
+
+            constraintSet = new ConstraintSet();
+            constraintSet.clone((ConstraintLayout) chapterFourModel.get().getView().findViewById(R.id.overlay_layout));
+            constraintSet.setDimensionRatio(R.id.chapter_four_view, originalImageWidth + ":" + originalImageHeight);
+            constraintSet.applyTo(chapterFourModel.get().getView().findViewById(R.id.overlay_layout));
+
+            constraintSet = new ConstraintSet();
+            constraintSet.clone((ConstraintLayout) chapterFiveModel.get().getView().findViewById(R.id.overlay_layout));
+            constraintSet.setDimensionRatio(R.id.chapter_five_view, originalImageWidth + ":" + originalImageHeight);
+            constraintSet.applyTo(chapterFiveModel.get().getView().findViewById(R.id.overlay_layout));
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        modelNode.setLocalPosition(new Vector3(getNewX(image), 0.0f, getNewZ(image)));
+        modelNode.setLocalRotation(Quaternion.axisAngle(Vector3.right(), -90));
+
         modelNode.setParent(this);
 
-        switch (chapter.getTitle()) {
-            case "Introduzione":
-                modelNode.setRenderable(bordersModel.getNow(null));
-                break;
-            case "Primo capitolo":
-                break;
-            case "Secondo capitolo":
-                break;
-            case "Terzo capitolo":
-                break;
-            case "Quarto capitolo":
-                break;
+        try {
+            switch (chapter.getTitle()) {
+                case "Introduzione":
+                    modelNode.setRenderable(bordersModel.get());
+                    break;
+                case "Primo capitolo":
+                    modelNode.setRenderable(chapterOneModel.get());
+                    break;
+                case "Secondo capitolo":
+                    modelNode.setRenderable(chapterTwoModel.get());
+                    break;
+                case "Terzo capitolo":
+                    modelNode.setRenderable(chapterThreeModel.get());
+                    break;
+                case "Quarto capitolo":
+                    modelNode.setRenderable(chapterFourModel.get());
+                    break;
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private float getNewX(AugmentedImage image) {
+        int center = this.rowsColumnsNumber / 2;
+        int augmentedImageColumnCoordinate = Integer.parseInt(image.getName().split("_")[2].split("r")[1].split("c")[1]);
+        if (this.rowsColumnsNumber % 2 == 0) {
+            int numbersToIncrementOrDecrement = (center - augmentedImageColumnCoordinate) - 1;
+            return (image.getExtentX() * numbersToIncrementOrDecrement) + (image.getExtentX() * 0.5f);
+        } else {
+            int numbersToIncrementOrDecrement = (center - augmentedImageColumnCoordinate);
+            return (image.getExtentX() * numbersToIncrementOrDecrement);
         }
     }
 
-    private float[] calculatePosition() {
-        int rowsColumnsNumber = (int) Math.sqrt(this.splitsNumber);
-
-        int lastRow = rowsColumnsNumber - 1;
-        int center = rowsColumnsNumber / 2;
-
-        double originalImageSingleWidth = this.originalImageWidth / rowsColumnsNumber;
-        double originalImageSingleHeight = this.originalImageHeight / rowsColumnsNumber;
-
-        int augmentedImageRowCoordinate = Integer.parseInt(this.image.getName().split("_")[2].split("r")[1].split("c")[0]);
-        int augmentedImageColumnCoordinate = Integer.parseInt(this.image.getName().split("_")[2].split("r")[1].split("c")[1]);
-
-        int[] numbersToIncrementOrDecrement = new int[2];
-        numbersToIncrementOrDecrement[0] = augmentedImageRowCoordinate - lastRow;
-        numbersToIncrementOrDecrement[1] = center - augmentedImageColumnCoordinate;
-
-        float widthIncrementOrDecrement = (float) (originalImageSingleWidth * numbersToIncrementOrDecrement[1]);
-        float heightIncrementOrDecrement = (float) (originalImageSingleHeight * numbersToIncrementOrDecrement[0]);
-
-        float[] newPositions = new float[2];
-        newPositions[0] = widthIncrementOrDecrement - this.image.getCenterPose().tx();
-        newPositions[1] = heightIncrementOrDecrement - this.image.getCenterPose().ty();
-
-        return newPositions;
+    private float getNewZ(AugmentedImage image) {
+        int center = this.rowsColumnsNumber / 2;
+        int augmentedImageRowCoordinate = Integer.parseInt(image.getName().split("_")[2].split("r")[1].split("c")[0]);
+        if (rowsColumnsNumber % 2 == 0) {
+            int numbersToIncrementOrDecrement = (center - augmentedImageRowCoordinate) - 1;
+            return (image.getExtentZ() * numbersToIncrementOrDecrement) + (image.getExtentZ() * 0.5f);
+        } else {
+            int numbersToIncrementOrDecrement = (center - augmentedImageRowCoordinate);
+            return (image.getExtentZ() * numbersToIncrementOrDecrement);
+        }
     }
+
 }

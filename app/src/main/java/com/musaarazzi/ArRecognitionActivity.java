@@ -1,25 +1,27 @@
 package com.musaarazzi;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Frame;
-
+import com.google.ar.core.Plane;
 import com.google.ar.core.TrackingState;
+import com.google.ar.sceneform.Camera;
 import com.google.ar.sceneform.FrameTime;
+import com.google.ar.sceneform.ux.ArFragment;
 import com.musaarazzi.augmentedimage.ArRecognitionFragment;
 import com.musaarazzi.augmentedimage.ArRecognitionNode;
 import com.musaarazzi.common.utils.Chapter;
 import com.musaarazzi.common.utils.ChaptersService;
-import com.google.ar.sceneform.ux.ArFragment;
 
 import java.util.Collection;
 import java.util.List;
@@ -164,14 +166,18 @@ public class ArRecognitionActivity extends AppCompatActivity implements View.OnC
 
         Collection<AugmentedImage> updatedAugmentedImages =
                 frame.getUpdatedTrackables(AugmentedImage.class);
+
         for (AugmentedImage augmentedImage : updatedAugmentedImages) {
             if (augmentedImage.getTrackingState() == TrackingState.TRACKING) {
-                Log.d(TAG, "Detected Image " + augmentedImage.getName());
                 Chapter chapter = detectChapter();
                 // Create a new anchor for newly found images.
+                Toast.makeText(getApplicationContext(), "Detected Image " + augmentedImage.getName(), Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Detected Image " + augmentedImage.getName());
                 if (!this.isModelAdded) {
                     ArRecognitionNode node = new ArRecognitionNode(this);
                     node.setImage(augmentedImage, chapter);
+                    Log.d(TAG, "Anchor pose " + node.getAnchor().getPose());
+                    node.setParent(this.arFragment.getArSceneView().getScene());
 
                     this.currentAugmentedImageNode = new Pair<>(augmentedImage, node);
 

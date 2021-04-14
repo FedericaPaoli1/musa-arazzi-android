@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChaptersService {
-
     private static String getJsonFromAssets(Context context, String fileName) {
         String jsonString;
         try {

@@ -7,12 +7,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.google.ar.core.AugmentedImageDatabase;
 import com.google.ar.core.Config;
@@ -39,7 +40,7 @@ public class ArRecognitionFragment extends ArFragment {
 
     private AugmentedImageDatabase augmentedImageDatabase;
     private Bitmap augmentedImageBitmap;
-    public static List<Integer> perfectSquares = new ArrayList<>(Arrays.asList(4, 9, 16, 25, 36, 49, 64));
+    public static List<Integer> perfectSquares = new ArrayList<>(Arrays.asList(2, 4, 9, 16, 25, 36, 49, 64));
     public static int chunksNumberIndex = perfectSquares.size() - 1;
 
 
@@ -70,8 +71,9 @@ public class ArRecognitionFragment extends ArFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         // Turn off the plane discovery since we're only looking for images
-        getPlaneDiscoveryController().hide();
-        getPlaneDiscoveryController().setInstructionView(null);
+        // getPlaneDiscoveryController().hide();
+        // getPlaneDiscoveryController().setInstructionView(null);
+        // Turned one because the ARCore stability is enhanced
         getArSceneView().getPlaneRenderer().setEnabled(false);
         return view;
     }
@@ -104,6 +106,7 @@ public class ArRecognitionFragment extends ArFragment {
             // while the number of images in the database is less than the number of chunks of the perfect square considered
             splitImage(this.augmentedImageBitmap, this.perfectSquares.get(this.chunksNumberIndex));
         }
+        Toast.makeText(getContext(), "Perfect square " + this.perfectSquares.get(this.chunksNumberIndex), Toast.LENGTH_LONG).show();
         Log.d(TAG, "Chunks number: " + this.perfectSquares.get(this.chunksNumberIndex));
         config.setAugmentedImageDatabase(this.augmentedImageDatabase);
 
