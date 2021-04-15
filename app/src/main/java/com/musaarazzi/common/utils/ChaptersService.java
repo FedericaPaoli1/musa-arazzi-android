@@ -25,7 +25,7 @@ public class ChaptersService {
 
             jsonString = new String(buffer, "UTF-8");
         } catch (IOException e) {
-            e.printStackTrace(); // TODO insert message for exception
+            e.printStackTrace();
             return null;
         }
 
@@ -41,11 +41,11 @@ public class ChaptersService {
         }.getType();
 
         List<Chapters> chapters = gson.fromJson(jsonFileString, listChaptersType);
-        List<Chapter> chapterNames = new ArrayList<>();
+        List<Chapter> chapterList = new ArrayList<>();
         for (int i = 0; i < chapters.size(); i++) {
-            chapterNames.add(new Chapter(chapters.get(i).getTitle(), false));
+            chapterList.add(new Chapter(chapters.get(i).getTitle(), chapters.get(i).getText(), chapters.get(i).getPosition(), false));
         }
         Log.d(TAG, "Chapter names obtained");
-        return chapterNames;
+        return chapterList;
     }
 }

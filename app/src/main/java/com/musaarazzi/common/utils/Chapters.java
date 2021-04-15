@@ -4,11 +4,13 @@ public class Chapters {
     private int id;
     private String title;
     private String text;
+    private String position;
 
-    public Chapters(int id, String title, String text) {
+    public Chapters(int id, String title, String text, String position) {
         this.id = id;
         this.title = title;
         this.text = text;
+        this.position = position;
     }
 
     public int getId() {
@@ -35,8 +37,16 @@ public class Chapters {
         this.text = text;
     }
 
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
     @Override
     public String toString() {
-        return "Chapters [id=" + this.id + ", title=" + this.title + ", text=" + this.text + "]";
+        return "Chapters [id=" + this.id + ", title=" + this.title + ", text=" + this.text + ", position=" + this.position + "]";
     }
 }

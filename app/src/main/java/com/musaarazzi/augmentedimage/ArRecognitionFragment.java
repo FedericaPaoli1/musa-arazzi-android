@@ -30,7 +30,7 @@ import java.util.List;
 public class ArRecognitionFragment extends ArFragment {
     private static final String TAG = "ArRecognitionFragment";
 
-    private static final String IMAGE_NAME = "arazzo.jpg";
+    public static final String IMAGE_NAME = "arazzo.jpg";
 
     public static final String DEFAULT_IMAGE_NAME = "Arazzo";
 
@@ -70,10 +70,9 @@ public class ArRecognitionFragment extends ArFragment {
             LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        // Turn off the plane discovery since we're only looking for images
-        // getPlaneDiscoveryController().hide();
-        // getPlaneDiscoveryController().setInstructionView(null);
-        // Turned one because the ARCore stability is enhanced
+        // Turn off the plane discovery since we're only looking for images (Turn on only if it can be done before the onUpdate)
+         getPlaneDiscoveryController().hide();
+         getPlaneDiscoveryController().setInstructionView(null);
         getArSceneView().getPlaneRenderer().setEnabled(false);
         return view;
     }
@@ -113,7 +112,7 @@ public class ArRecognitionFragment extends ArFragment {
         return this.augmentedImageDatabase.getNumImages() >= 1;
     }
 
-    private Bitmap loadImage(AssetManager assetManager, String filename) {
+    public static Bitmap loadImage(AssetManager assetManager, String filename) {
         try (InputStream is = assetManager.open(filename)) {
             return BitmapFactory.decodeStream(is);
         } catch (IOException e) {

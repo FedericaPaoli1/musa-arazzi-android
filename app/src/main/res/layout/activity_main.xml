@@ -1,192 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ArRecognitionActivity">
+    android:layout_height="match_parent">
 
-    <fragment
-        android:id="@+id/ux_fragment"
-        android:name="com.musaarazzi.augmentedimage.ArRecognitionFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="150dp"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="416dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="646dp"
+        android:background="@drawable/layout_shadow"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="89dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="190dp"
-        android:layout_marginBottom="44dp"
-        android:theme="@style/ProgressBarStyle"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/ux_fragment"
-        app:layout_constraintEnd_toEndOf="@+id/ux_fragment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ux_fragment"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/opere_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:text="Opere"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="#000000"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/virtualModeButton"
-        android:layout_width="57dp"
-        android:layout_height="51dp"
-        android:layout_gravity="right"
-        android:layout_marginStart="158dp"
-        android:layout_marginEnd="20dp"
-        android:background="#00FFFFFF"
-        android:onClick="onClick"
-        app:layout_constraintBottom_toTopOf="@+id/ux_fragment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/backButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_round_image_search" />
-
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="57dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="140dp"
-        android:background="#00FFFFFF"
-        android:onClick="onClick"
-        app:layout_constraintBottom_toTopOf="@+id/ux_fragment"
-        app:layout_constraintEnd_toStartOf="@+id/virtualModeButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_round_arrow_back_ios" />
-
-    <ImageButton
-        android:id="@+id/subtitlesButton"
-        android:layout_width="57dp"
-        android:layout_height="51dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginStart="354dp"
-        android:background="#00FFFFFF"
-        android:onClick="onClick"
-        app:layout_constraintBottom_toTopOf="@+id/artworkNameTextView"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ux_fragment"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_round_speaker_notes" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.03">
 
-    <ImageButton
-        android:id="@+id/backwardButton"
-        android:layout_width="57dp"
-        android:layout_height="51dp"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="86dp"
-        android:layout_marginTop="58dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginBottom="41dp"
-        android:background="#00FFFFFF"
-        android:onClick="onClick"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ux_fragment"
-        app:srcCompat="@drawable/ic_round_skip_previous" />
+        <ImageView
+            android:id="@+id/opere_image_view"
+            android:layout_width="120dp"
+            android:layout_height="122dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="8dp"
+            android:background="#00FFFFFF" />
 
-    <ImageButton
-        android:id="@+id/playButton"
-        android:layout_width="57dp"
-        android:layout_height="51dp"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="58dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="41dp"
-        android:background="#00FFFFFF"
-        android:onClick="onClick"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/forwardButton"
-        app:layout_constraintStart_toEndOf="@+id/backwardButton"
-        app:layout_constraintTop_toBottomOf="@+id/ux_fragment"
-        app:srcCompat="@drawable/ic_round_play_arrow" />
+        <TextView
+            android:id="@+id/opere_text_view2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="14dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="11dp"
+            android:layout_toEndOf="@+id/opere_image_view"
+            android:textColor="#000000"
+            android:textSize="24sp" />
 
-    <ImageButton
-        android:id="@+id/pauseButton"
-        android:layout_width="57dp"
-        android:layout_height="51dp"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="58dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="41dp"
-        android:background="#00FFFFFF"
-        android:onClick="onClick"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/forwardButton"
-        app:layout_constraintStart_toEndOf="@+id/backwardButton"
-        app:layout_constraintTop_toBottomOf="@+id/ux_fragment"
-        android:visibility="gone"
-        app:srcCompat="@drawable/ic_round_pause" />
-
-    <ImageButton
-        android:id="@+id/forwardButton"
-        android:layout_width="57dp"
-        android:layout_height="51dp"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="58dp"
-        android:layout_marginEnd="86dp"
-        android:layout_marginBottom="41dp"
-        android:background="#00FFFFFF"
-        android:onClick="onClick"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ux_fragment"
-        app:srcCompat="@drawable/ic_round_skip_next" />
-
-    <TextView
-        android:id="@+id/chapterNameTextView"
-        android:layout_width="204dp"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="150dp"
-        android:textAlignment="viewStart"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="592dp"
-        android:layout_marginBottom="120dp"
-        android:background="#00FFFFFF"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/backButton"
-        app:layout_constraintEnd_toStartOf="@+id/subtitlesButton"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="RtlCompat" />
-
-    <TextView
-        android:id="@+id/artworkNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginStart="324dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="5dp"
-        android:background="#00FFFFFF"
-        android:textAlignment="gravity"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.341"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subtitlesButton" />
-
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

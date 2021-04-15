@@ -2,15 +2,27 @@ package com.musaarazzi.common.utils;
 
 public class Chapter {
     private String title;
+    private String text;
+    private String position;
     private boolean selected;
 
-    public Chapter(String title, boolean selected) {
+    public Chapter(String title, String text, String position, boolean selected) {
         this.title = title;
+        this.text = text;
+        this.position = position;
         this.selected = selected;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String getPosition() {
+        return position;
     }
 
     public boolean getSelected() {
@@ -23,6 +35,6 @@ public class Chapter {
 
     @Override
     public String toString() {
-        return "Chapter [title=" + this.title + ", selected=" + this.selected + "]";
+        return "Chapter [title=" + this.title + ", text=" + this.text + ", position=" + this.position + ", selected=" + this.selected + "]";
     }
 }

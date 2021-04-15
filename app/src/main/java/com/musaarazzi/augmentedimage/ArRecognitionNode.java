@@ -228,6 +228,9 @@ public class ArRecognitionNode extends AnchorNode {
                 case "Quarto capitolo":
                     modelNode.setRenderable(chapterFourModel.get());
                     break;
+                case "Quinto capitolo":
+                    modelNode.setRenderable(chapterFiveModel.get());
+                    break;
             }
         } catch (ExecutionException e) {
             e.printStackTrace();

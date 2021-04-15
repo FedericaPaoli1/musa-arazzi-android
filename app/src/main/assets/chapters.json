@@ -2,26 +2,37 @@
   {
     "id": 1,
     "title": "Introduzione",
-    "text": "Testo da riprodurre"
+    "text": "Testo da riprodurre per il capitolo introduzione",
+    "position": ""
   },
   {
     "id": 2,
     "title": "Primo capitolo",
-    "text": "Il panettone"
+    "text": "Testo da riprodurre per il primo capitolo",
+    "position": ""
   },
   {
     "id": 3,
     "title": "Secondo capitolo",
-    "text": "L'unicorno"
+    "text": "Testo da riprodurre per il secondo capitolo",
+    "position": ""
   },
   {
     "id": 4,
     "title": "Terzo capitolo",
-    "text": "La maglia"
+    "text": "Testo da riprodurre per il terzo capitolo",
+    "position": ""
   },
   {
     "id": 5,
     "title": "Quarto capitolo",
-    "text": "Il salmone"
+    "text": "Testo da riprodurre per il quarto capitolo",
+    "position": ""
+  },
+  {
+    "id": 6,
+    "title": "Quinto capitolo",
+    "text": "Testo da riprodurre per il quinto capitolo",
+    "position": ""
   }
 ]
