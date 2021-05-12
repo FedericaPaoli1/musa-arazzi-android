@@ -6,12 +6,10 @@
     <uses-feature
         android:glEsVersion="0x00030000"
         android:required="true" />
-    <!-- Always needed for AR. -->
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <!-- Indicates that this app requires Google Play Services for AR ("AR Required") and results in
-         the app only being visible in the Google Play Store on devices that support ARCore.
-         For an "AR Optional" app, remove this tag. -->
+
     <uses-feature
         android:name="android.hardware.camera.ar"
         android:required="true" />
@@ -29,8 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ArRecognitionActivity"></activity>
-        <!-- Indicates whether "Google Play Services for AR" (ARCore) is "required" or "optional". -->
+        <activity android:name=".ArRecognitionActivity" />
         <meta-data
             android:name="com.google.ar.core"
             android:value="required" />

@@ -1,4 +1,4 @@
-package com.musaarazzi.augmentedimage;
+package com.musaarazzi.augmentedimages;
 
 import android.content.Context;
 import android.util.Log;
@@ -19,15 +19,11 @@ import com.musaarazzi.common.utils.Chapter;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class ArRecognitionNode extends AnchorNode {
+public class OverlayImageNode extends AnchorNode {
 
-    private static final String TAG = "ArRecognitionNode";
+    private static final String TAG = "OverlayImageNode";
 
-    private final int splitsNumber;
-    private int rowsColumnsNumber;
-
-    private float originalImageWidth;
-    private float originalImageHeight;
+    private final int rowsColumnsNumber;
 
     private CompletableFuture<ViewRenderable> bordersModel;
     private CompletableFuture<ViewRenderable> chapterOneModel;
@@ -36,20 +32,20 @@ public class ArRecognitionNode extends AnchorNode {
     private CompletableFuture<ViewRenderable> chapterFourModel;
     private CompletableFuture<ViewRenderable> chapterFiveModel;
 
-    private Context context;
+    private final Context context;
 
-    public ArRecognitionNode(Context context) {
+    public OverlayImageNode(Context context) {
         this.context = context;
 
-        this.splitsNumber = ArRecognitionFragment.perfectSquares.get(ArRecognitionFragment.chunksNumberIndex);
-        this.rowsColumnsNumber = (int) Math.sqrt(this.splitsNumber);
+        int splitsNumber = ArRecognitionFragment.perfectSquares.get(ArRecognitionFragment.chunksNumberIndex);
+        this.rowsColumnsNumber = (int) Math.sqrt(splitsNumber);
     }
 
 
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
     public void setImage(AugmentedImage image, Chapter chapter) {
-        this.originalImageWidth = image.getExtentX() * rowsColumnsNumber;
-        this.originalImageHeight = image.getExtentZ() * rowsColumnsNumber;
+        float originalImageWidth = image.getExtentX() * rowsColumnsNumber;
+        float originalImageHeight = image.getExtentZ() * rowsColumnsNumber;
 
 
         if (this.getAnchor() == null) {
@@ -168,6 +164,7 @@ public class ArRecognitionNode extends AnchorNode {
 
         modelNode = new Node();
 
+        // set correct dimension for all overlay images
         try {
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone((ConstraintLayout) bordersModel.get().getView().findViewById(R.id.overlay_layout));
@@ -200,9 +197,7 @@ public class ArRecognitionNode extends AnchorNode {
             constraintSet.setDimensionRatio(R.id.chapter_five_view, originalImageWidth + ":" + originalImageHeight);
             constraintSet.applyTo(chapterFiveModel.get().getView().findViewById(R.id.overlay_layout));
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -232,9 +227,7 @@ public class ArRecognitionNode extends AnchorNode {
                     modelNode.setRenderable(chapterFiveModel.get());
                     break;
             }
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
 

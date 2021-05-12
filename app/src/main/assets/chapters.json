@@ -9,30 +9,30 @@
     "id": 2,
     "title": "Primo capitolo",
     "text": "Testo da riprodurre per il primo capitolo",
-    "position": ""
+    "position": "r1c0"
   },
   {
     "id": 3,
     "title": "Secondo capitolo",
     "text": "Testo da riprodurre per il secondo capitolo",
-    "position": ""
+    "position": "r1c2"
   },
   {
     "id": 4,
     "title": "Terzo capitolo",
     "text": "Testo da riprodurre per il terzo capitolo",
-    "position": ""
+    "position": "r3c2"
   },
   {
     "id": 5,
     "title": "Quarto capitolo",
     "text": "Testo da riprodurre per il quarto capitolo",
-    "position": ""
+    "position": "r2c0"
   },
   {
     "id": 6,
     "title": "Quinto capitolo",
     "text": "Testo da riprodurre per il quinto capitolo",
-    "position": ""
+    "position": "r3c3"
   }
 ]

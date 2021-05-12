@@ -1,9 +1,9 @@
 package com.musaarazzi.common.utils;
 
 public class Chapter {
-    private String title;
-    private String text;
-    private String position;
+    private final String title;
+    private final String text;
+    private final String position;
     private boolean selected;
 
     public Chapter(String title, String text, String position, boolean selected) {

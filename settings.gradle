@@ -1,17 +1,2 @@
 include ':app'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+rootProject.name = "MusaArazziAndroid"

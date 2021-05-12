@@ -1,11 +1,10 @@
-package com.musaarazzi.augmentedimage;
+package com.musaarazzi.augmentedimages;
 
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.ar.core.AugmentedImageDatabase;
@@ -34,26 +34,22 @@ public class ArRecognitionFragment extends ArFragment {
 
     public static final String DEFAULT_IMAGE_NAME = "Arazzo";
 
+    private static final float PIXEL_METER_CONVERSION_CONST = 0.0002645833f;
+
     // Runtime check for the OpenGL level available at runtime to avoid Sceneform crashing the
     // application.
     private static final double MIN_OPENGL_VERSION = 3.0;
 
     private AugmentedImageDatabase augmentedImageDatabase;
-    private Bitmap augmentedImageBitmap;
     public static List<Integer> perfectSquares = new ArrayList<>(Arrays.asList(2, 4, 9, 16, 25, 36, 49, 64));
     public static int chunksNumberIndex = perfectSquares.size() - 1;
 
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        // Check for Sceneform being supported on this device.  This check will be integrated into
-        // Sceneform eventually.
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            Log.e(TAG, "Sceneform requires Android N or later");
-            Toast.makeText(getContext(), "Sceneform requires Android N or later", Toast.LENGTH_LONG).show();
-        }
+        // Check for Sceneform being supported on the device.
 
         String openGlVersionString =
                 ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE))
@@ -70,9 +66,9 @@ public class ArRecognitionFragment extends ArFragment {
             LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        // Turn off the plane discovery since we're only looking for images (Turn on only if it can be done before the onUpdate)
-         getPlaneDiscoveryController().hide();
-         getPlaneDiscoveryController().setInstructionView(null);
+        // Turn off the plane discovery since we're only looking for images
+        getPlaneDiscoveryController().hide();
+        getPlaneDiscoveryController().setInstructionView(null);
         getArSceneView().getPlaneRenderer().setEnabled(false);
         return view;
     }
@@ -83,6 +79,7 @@ public class ArRecognitionFragment extends ArFragment {
         if (!setupAugmentedImageDatabase(config, session)) {
             Toast.makeText(getContext(), "Could not setup augmented image database", Toast.LENGTH_LONG).show();
         }
+        Log.d(TAG, "Setup augmented image database");
         return config;
     }
 
@@ -93,20 +90,19 @@ public class ArRecognitionFragment extends ArFragment {
             return false;
         }
 
-        this.augmentedImageBitmap = loadImage(assetManager, IMAGE_NAME);
-        if (this.augmentedImageBitmap == null) {
+        Bitmap augmentedImageBitmap = loadImage(assetManager, IMAGE_NAME);
+        if (augmentedImageBitmap == null) {
             return false;
         }
 
         this.augmentedImageDatabase = new AugmentedImageDatabase(session);
-        this.augmentedImageDatabase.addImage(DEFAULT_IMAGE_NAME, this.augmentedImageBitmap);
+        this.augmentedImageDatabase.addImage(DEFAULT_IMAGE_NAME, augmentedImageBitmap, augmentedImageBitmap.getWidth() * PIXEL_METER_CONVERSION_CONST);
 
-        while (this.augmentedImageDatabase.getNumImages() < this.perfectSquares.get(this.chunksNumberIndex) + 1) {
+        while (this.augmentedImageDatabase.getNumImages() < perfectSquares.get(chunksNumberIndex) + 1) {
             // while the number of images in the database is less than the number of chunks of the perfect square considered
-            splitImage(this.augmentedImageBitmap, this.perfectSquares.get(this.chunksNumberIndex));
+            splitImage(augmentedImageBitmap, perfectSquares.get(chunksNumberIndex));
         }
-        Toast.makeText(getContext(), "Perfect square " + this.perfectSquares.get(this.chunksNumberIndex), Toast.LENGTH_LONG).show();
-        Log.d(TAG, "Chunks number: " + this.perfectSquares.get(this.chunksNumberIndex));
+        Log.d(TAG, "Chunks number: " + perfectSquares.get(chunksNumberIndex));
         config.setAugmentedImageDatabase(this.augmentedImageDatabase);
 
         return this.augmentedImageDatabase.getNumImages() >= 1;
@@ -144,13 +140,10 @@ public class ArRecognitionFragment extends ArFragment {
             for (int y = 0; y < cols; y++) {
                 try {
                     this.augmentedImageDatabase.addImage("chunk_at_r" + x + "c" + y, Bitmap.createBitmap(bitmap, xCoord, yCoord, chunkWidth, chunkHeight));
-                    // 480: to speed up the augmented image detection
-                    // TODO find a way to generalize with android.hardware.camera2
                 } catch (ImageInsufficientQualityException e) {
-                    this.chunksNumberIndex = perfectSquares.indexOf(chunkNumbers) - 1;
+                    chunksNumberIndex = perfectSquares.indexOf(chunkNumbers) - 1;
                     return;
                 }
-                // counter++;
                 xCoord += chunkWidth;
             }
             yCoord += chunkHeight;

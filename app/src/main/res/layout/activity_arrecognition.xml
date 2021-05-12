@@ -40,14 +40,14 @@
             android:layout_height="42dp"
             android:layout_marginStart="35dp"
             android:background="#00FFFFFF"
+            android:clickable="false"
             android:drawableBottom="@drawable/ic_round_image_search"
             android:onClick="onClick"
             android:textColor="#00FFFFFF"
             android:textColorHighlight="#00FFFFFF"
             android:textColorHint="#00FFFFFF"
             android:textColorLink="#00FFFFFF"
-            android:textCursorDrawable="@color/common_google_signin_btn_text_dark_disabled"
-            android:clickable="false"/>
+            android:textCursorDrawable="@color/common_google_signin_btn_text_dark_disabled" />
     </LinearLayout>
 
     <RelativeLayout
@@ -61,7 +61,7 @@
 
         <fragment
             android:id="@+id/ar_fragment"
-            android:name="com.musaarazzi.augmentedimage.ArRecognitionFragment"
+            android:name="com.musaarazzi.augmentedimages.ArRecognitionFragment"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
@@ -114,8 +114,7 @@
             android:layout_height="36dp"
             android:background="#00FFFFFF"
             android:onClick="onClick"
-            app:srcCompat="@drawable/ic_round_speaker_notes"
-            />
+            app:srcCompat="@drawable/ic_round_speaker_notes" />
 
     </LinearLayout>
 
@@ -139,8 +138,7 @@
             android:background="#00FFFFFF"
             android:onClick="onClick"
             android:scrollbarThumbHorizontal="@color/common_google_signin_btn_text_dark_disabled"
-            app:srcCompat="@drawable/ic_round_skip_previous"
-            />
+            app:srcCompat="@drawable/ic_round_skip_previous" />
 
         <ImageButton
             android:id="@+id/play_button"
@@ -150,8 +148,7 @@
             android:layout_marginEnd="50dp"
             android:background="#00FFFFFF"
             android:onClick="onClick"
-            app:srcCompat="@drawable/ic_round_play_arrow"
-            />
+            app:srcCompat="@drawable/ic_round_play_arrow" />
 
         <ImageButton
             android:id="@+id/pause_button"
@@ -162,8 +159,7 @@
             android:background="#00FFFFFF"
             android:onClick="onClick"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_round_pause"
-            />
+            app:srcCompat="@drawable/ic_round_pause" />
 
         <ImageButton
             android:id="@+id/forward_button"
@@ -171,8 +167,7 @@
             android:layout_height="36dp"
             android:background="#00FFFFFF"
             android:onClick="onClick"
-            app:srcCompat="@drawable/ic_round_skip_next"
-           />
+            app:srcCompat="@drawable/ic_round_skip_next" />
     </LinearLayout>
 
     <LinearLayout
@@ -208,27 +203,30 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
+        android:id="@+id/subtitles_linearLayout"
         android:layout_width="403dp"
         android:layout_height="137dp"
         android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="9dp"
+        android:background="@drawable/rounded_corner"
+        android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentLayout"
-        android:orientation="horizontal">
+        app:layout_constraintTop_toBottomOf="@+id/fragmentLayout">
 
         <TextView
             android:id="@+id/subtitles_text"
-            android:layout_width="match_parent"
+            android:layout_width="330dp"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_corner"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
             android:textColor="#000000"
-            android:textSize="21sp"
-            android:visibility="gone" />
+            android:textSize="21sp" />
 
     </LinearLayout>
 
@@ -241,10 +239,10 @@
         android:layout_marginBottom="230dp"
         android:background="#00FFFFFF"
         android:onClick="onClick"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
-        app:srcCompat="@drawable/ic_round_close"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@+id/subtitles_linearLayout"
+        app:srcCompat="@drawable/ic_round_close" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
