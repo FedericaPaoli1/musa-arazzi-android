@@ -91,6 +91,7 @@ public class CorrectOrientationNode extends AnchorNode {
         } else {
             double diagonal = Math.sqrt(Math.pow(columnsDifference, 2) + Math.pow(rowsDifference, 2));
             float alpha = (float) Math.acos(Math.abs(columnsDifference) / diagonal);
+            alpha = alpha * (180 / (float) Math.PI); // Conversion from radians to degrees
             if (columnsDifference > 0) {
                 alpha += -90;
             }

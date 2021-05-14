@@ -77,8 +77,7 @@ public class ArRecognitionActivity extends AppCompatActivity implements View.OnC
     private boolean exit = false;
 
     // Tolerance for the user displacement must be increased for a larger artwork
-    private static final float POSITIVE_TOLERANCE = 0;
-    private static final float NEGATIVE_TOLERANCE = 0;
+    private static final float TOLERANCE = 0;
 
     private Vibrator vibrator;
 
@@ -273,7 +272,7 @@ public class ArRecognitionActivity extends AppCompatActivity implements View.OnC
 
                         if (counter == 0 && !chaptersSelectedList.contains(chapter)) { // Operations to do only at the start of each chapter
                             chaptersSelectedList.add(chapter);
-                            this.isFarFromTheChapterPosition = getColumnsDistance(augmentedImage, chapter.getPosition()) < NEGATIVE_TOLERANCE || getColumnsDistance(augmentedImage, chapter.getPosition()) > POSITIVE_TOLERANCE;
+                            this.isFarFromTheChapterPosition = Math.abs(getColumnsDistance(augmentedImage, chapter.getPosition())) > TOLERANCE;
                             this.isRotationNeeded = getRotationNeed(getRowsDistance(augmentedImage, chapter.getPosition()), getColumnsDistance(augmentedImage, chapter.getPosition()));
                         }
 
@@ -285,7 +284,7 @@ public class ArRecognitionActivity extends AppCompatActivity implements View.OnC
 
                             addCorrectPositionNode(augmentedImage, chapter, correctPositionNode);
 
-                            if (getColumnsDistance(augmentedImage, chapter.getPosition()) < NEGATIVE_TOLERANCE || getColumnsDistance(augmentedImage, chapter.getPosition()) > POSITIVE_TOLERANCE) {
+                            if (Math.abs(getColumnsDistance(augmentedImage, chapter.getPosition())) > TOLERANCE) {
                                 showDialog(augmentedImage, chapter);
 
                                 if (!this.augmentedImages.contains(augmentedImage) && counter > 0) {

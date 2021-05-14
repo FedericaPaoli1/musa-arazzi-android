@@ -126,8 +126,6 @@ public class ArRecognitionFragment extends ArFragment {
         //For height and width of the small image chunks
         int chunkHeight, chunkWidth;
 
-        // int counter = 1;
-
         rows = cols = (int) Math.sqrt(chunkNumbers);
         chunkHeight = bitmap.getHeight() / rows;
         chunkWidth = bitmap.getWidth() / cols;
